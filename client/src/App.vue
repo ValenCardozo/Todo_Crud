@@ -1,26 +1,38 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <v-app>
+    <div class="d-flex justify-center">
+      <h1 id="addTodo">
+      Add ToDo
+      </h1>
+    </div>
+    <div class="d-flex justify-center">
+      <v-col cols="6" style="margin: 0px auto;">
+        <v-text-field v-model="newTodo" label="Add Todo" solo></v-text-field>      
+      </v-col>
+    </div>
+    <div class="d-flex justify-center">
+      <v-btn @click="addToDo()" color="primary">
+       AddToDo
+      </v-btn>   
+    </div>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import axios from "axios";
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+  data: () => ({
+    newToDo: "",
+  }),
+  methods: {
+    addToDo() {
+      axios.post("http://localhost:3000/todo/add", {
+        todo: this.newTodo
+      }).then(response => {
+        this.message = response.data;
+      });
+    }
+  },
+};
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
